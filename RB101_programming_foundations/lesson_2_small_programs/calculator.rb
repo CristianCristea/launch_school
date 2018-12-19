@@ -4,12 +4,22 @@
 # asks for the type of operation to perform: add, subtract, multiply or divide
 # displays the result
 
-def prompt(message)
+require 'yaml'
+MESSAGES = YAML.load_file('calculator_messages.yml')
+LANGUAGE = 'en'
+
+def prompt (message)
   puts("=> #{message}")
 end
 
+def messages(message, lang="en")
+  MESSAGES[lang][message]
+end
+
+# assignment 1 - better number validation
+# use regex to validate string, allow floats
 def valid_number?(num)
-  num.to_i != 0
+  num =~ /^\d*\.?\d*$/
 end
 
 def calculate(num1, num2, operator)
@@ -38,7 +48,7 @@ def operation_to_message(operator)
   end
 end
 
-prompt('Welcome to calculator."')
+prompt(messages('welcome', LANGUAGE))
 loop do
   num1 = ''
   loop do
@@ -93,3 +103,5 @@ loop do
 end
 
 prompt('Goodbye!')
+
+# 4. 
