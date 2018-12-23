@@ -40,9 +40,7 @@ def calculate_winner(user, computer)
   end
 end
 
-def display_result(user, computer, winner)
-  prompt("You picked #{user}, the computer picked #{computer}.")
-
+def display_result(winner)
   case winner
   when 'You'
     prompt('You win!')
@@ -77,7 +75,8 @@ loop do
     user_choice = VALID_CHOICES[user_input.to_sym]
     winner = calculate_winner(user_choice, computer_choice)
 
-    display_result(user_choice, computer_choice, winner)
+    prompt("You picked #{user_choice}, the computer picked #{computer_choice}.")
+    display_result(winner)
 
     # add won game
     if winner == 'You'
