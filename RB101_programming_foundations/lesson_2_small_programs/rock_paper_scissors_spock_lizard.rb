@@ -28,19 +28,16 @@ def prompt(message)
   puts "=> #{message}"
 end
 
-def win?(player_one, computer_two)
-  WINNING_RULES[player_one.to_sym].include?(computer_two)
+def win?(player_one, player_two)
+  WINNING_RULES[player_one.to_sym].include?(player_two)
 end
 
 def calculate_winner(user, computer)
-  winner = ''
   if win?(user, computer)
-    winner = 'You'
+    'You'
   elsif win?(computer, user)
-    winner = "Computer"
+    'Computer'
   end
-
-  winner
 end
 
 def display_result(user, computer, winner)
