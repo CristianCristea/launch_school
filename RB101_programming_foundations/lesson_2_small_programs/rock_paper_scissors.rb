@@ -32,16 +32,14 @@ def win?(player_one, player_two)
 end
 
 def display_result(user, computer)
-  winner = ''
+  prompt("You picked #{user}, the computer picked #{computer}.")
   if win?(user, computer)
-    winner = user
+    prompt("You win!")
   elsif win?(computer)
-    winner = computer
+    prompt("Computer wins.")
   else
-    winner = 'nobody'
+    prompt("It's a tie!")
   end
-
-  prompt("You picked #{user}, the computer picked #{computer}. #{winner} wins.")
 end
 
 loop do
