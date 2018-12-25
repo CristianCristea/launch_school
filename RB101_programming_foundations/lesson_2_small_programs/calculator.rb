@@ -8,7 +8,7 @@ require 'yaml'
 MESSAGES = YAML.load_file('calculator_messages.yml')
 LANGUAGE = 'en'
 
-def prompt (message)
+def prompt(message)
   puts("=> #{message}")
 end
 
@@ -103,5 +103,3 @@ loop do
 end
 
 prompt('Goodbye!')
-
-# 4. 
