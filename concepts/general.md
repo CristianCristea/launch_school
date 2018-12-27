@@ -13,6 +13,7 @@
 - a block is a piece of code following a method invocation usually
   contained between **do/end or {}**
 - inner scope can access variables initialized in outer scope but not vice versa
+- **if a method and a local variable have the same name, ruby tries to access the local variable first if it can't then invokes the method**
 
 ### Local variables
 
