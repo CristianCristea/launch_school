@@ -1,5 +1,9 @@
 # Topics
 
+# Object id
+
+- Every named entity in Ruby has an object_id. This is a unique identifier for that object.
+
 ## Abstraction in computer science
 
 - the act of representing essential features without including the background details
@@ -89,9 +93,17 @@ end
 
 ## implicit return values of method invocations
 
+- the method invocation will implicitly return the last line from the method definition
+
 ## method definition and invocation
 
 - method definition can't directly access a local variable initialized outside of the method definition
 - method definition can't change or reassign a local variable initialized outside
 - a block can access and modify a local variable initialized outside
 - method definition can access local variables defined outside through interaction with blocks
+
+## pass an object as argument to a method
+
+- remember that in Ruby, what gets passed in the parameter list is not what it appears.
+- under the hood, ruby passes the object id of each item rather than the value of the parameter.
+- the method internally stores these object id's in locally scoped variables (named per the method definition's parameter list).
