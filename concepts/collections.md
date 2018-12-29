@@ -50,6 +50,57 @@ hsh['fruit'][0] # => "a"
 
 # iterators
 
-1. #each - iteration, does not consider the return value of the block, returns the original collection, same length
-2. #map - transformation, changes each element based on the return value of the block, returns new collection, has the same length
-3. #select - selection, considers the truthiness of the returned expression, returns new collection, can have a different length
+## #each
+
+- iteration
+- does not consider the return value of the block
+- returns the original collection
+- same length with the original array
+
+## #map
+
+- transformation
+- changes each element based on the return value of the block
+- returns new collection
+- has the same length with the original array
+- always returns an array even when called on a hash
+
+## #select
+
+- selection
+- considers the truthiness of the returned expression
+- returns new collection
+- can have a different length comparing to the original array
+
+## #reduce == #inject
+
+- use to mutate an array or a collection
+
+```ruby
+ages = { "Herman" => 32, "Lily" => 30, "Grandpa" => 5843, "Eddie" => 10, "Marilyn" => 22, "Spot" => 237 }
+ages.values.sum # returns the values sum
+
+# or for example purpuse
+ages.values.inject(:+)
+```
+
+## #each_with_object
+
+- use when you want to return a new object(hash or array)
+
+```ruby
+mapping = {'ż' => 'Ż', 'ó' => 'Ó'}
+lower = 'a'..'z'
+lower.each_with_object(mapping) do |char, hash|
+  hash[char] = char.upcase
+end
+
+# or
+# return a hash with the name as key and index as value
+flintstones = ["Fred", "Barney", "Wilma", "Betty", "Pebbles", "BamBam"]
+
+flintstones.each_with_object({}) do |name, hash|
+  hash[name] = flintstones.index(name)
+end
+
+```
