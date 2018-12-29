@@ -47,3 +47,9 @@ hsh['fruit'][0] # => "a"
 
 - **Elements in String and Array objects can be referenced using negative indices, starting from the last index in the collection -1 and working backwards.**
 - can use #fetch method on array and hash to retrive an element, the method will raise an error if the index is out of bounds or key does not exist
+
+# iterators
+
+1. #each - iteration, does not consider the return value of the block, returns the original collection, same length
+2. #map - transformation, changes each element based on the return value of the block, returns new collection, has the same length
+3. #select - selection, considers the truthiness of the returned expression, returns new collection, can have a different length
