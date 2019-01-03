@@ -157,4 +157,26 @@ end
 arr = [[2], [3, 5, 7], [9], [11, 13, 15]]
 
 # select
-# 
+arr.map do |sub_arr|
+  sub_arr.select { |n| n % 3 == 0 }
+end
+
+# 12.
+# Given the following data structure, and without using the Array#to_h method, write some code that will return a hash where the key is the first item in each sub array and the value is the second item.
+
+arr = [[:a, 1], ['b', 'two'], ['sea', {c: 3}], [{a: 1, b: 2, c: 3, d: 4}, 'D']]
+
+hash = {}
+arr.each do |sub_arr|
+  hash[sub_arr[0]] = sub_arr[1]
+end
+
+p hash
+
+# 13.
+# Given the following data structure, return a new array containing the same sub-arrays as the original but ordered logically according to the numeric value of the odd integers they contain.
+
+arr = [[1, 6, 7], [1, 4, 9], [1, 8, 3]]
+
+# The sorted array should look like this:
+[[1, 8, 3], [1, 6, 7], [1, 4, 9]]
