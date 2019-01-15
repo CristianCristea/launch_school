@@ -54,6 +54,7 @@ arr # => [[1], [2], [3, 4]]
 
 - **when you modify the inner collection of the copy by referencing the elements directly, the original will be modified**
 - **when you modify the inner collection itself, the original array is not modified**
+- **important is the collection on which you call the method upon - if an inner elem is also a collection and you call a method on it you will modify it**
 
 ```ruby
 # A
@@ -64,6 +65,7 @@ arr2.map! do |char|
 end
 
 # by changing the Array not the elements specifically, only changes the copy even with ! distructive methods
+#  call the destructive method Array#map! on arr2; this method modifies the array, replacing each element of arr2 with a new value. Since we are changing the Array, not the elements within it, arr1 is left unchanged.
 arr1 # => ["a", "b", "c"]
 arr2 # => ["A", "B", "C"]
 

@@ -1,6 +1,6 @@
 # Sorting
 
-- order the elements based on a criterion
+- order the elements in a collection based on a criterion
 
 - usually sorting is performed on arrays
 - a string can be converted to an array, sorted and back
