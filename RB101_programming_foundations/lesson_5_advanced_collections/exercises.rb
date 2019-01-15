@@ -108,11 +108,12 @@ hsh = {first: ['the', 'quick'], second: ['brown', 'fox'], third: ['jumped'], fou
 # array
 # store the vowels in an array
 # initialize a found_vowels array
-# iterate over hash check
+# iterate over hash
 # iterate over array
 # scan each string for vowels
 # push the vowels to the found_vowels
 
+# print the vowels and return the keys with contained vowels
 def find_vowels(hash)
   found_vowels = {}
 
@@ -126,15 +127,22 @@ def find_vowels(hash)
   found_vowels
 end
 
+# print vowels
+hsh.each_value do |arr|
+  arr.each { |string| puts string.scan(/[aeiou]/) }
+end
+
 # 9.
 # Given this data structure, return a new array of the same structure but with the sub arrays being ordered (alphabetically or numerically as appropriate) in descending order.
 
 arr = [['b', 'c', 'a'], [2, 1, 3], ['blue', 'black', 'green']]
 
-# map
-# sort each array
+# map - return a new
+# sort each array - descending order
 
-arr.map { |sub_arr| sub_arr.sort }
+arr.map do |sub_arr|
+  sub_arr.sort { |a, b| b <=> a }
+end
 
 # 10.
 # Given the following data structure and without modifying the original array, use the map method to return a new array identical in structure to the original but where the value of each integer is incremented by 1.
@@ -180,3 +188,129 @@ arr = [[1, 6, 7], [1, 4, 9], [1, 8, 3]]
 
 # The sorted array should look like this:
 [[1, 8, 3], [1, 6, 7], [1, 4, 9]]
+
+arr.sort do |a, b|
+  a = a.select { |n| n.odd? }
+  b = b.select { |n| n.odd? }
+
+  a <=> b
+end
+
+# refactor using sort_by
+arr.sort_by do |sub_arr|
+  sub_arr.select { |n| n.odd? }
+end
+
+# 14.
+# Given this data structure write some code to return an array containing the colors of the fruits and the sizes of the vegetables. The sizes should be uppercase and the colors should be capitalized.
+
+hsh = {
+  'grape' => {type: 'fruit', colors: ['red', 'green'], size: 'small'},
+  'carrot' => {type: 'vegetable', colors: ['orange'], size: 'medium'},
+  'apple' => {type: 'fruit', colors: ['red', 'green'], size: 'medium'},
+  'apricot' => {type: 'fruit', colors: ['orange'], size: 'medium'},
+  'marrow' => {type: 'vegetable', colors: ['green'], size: 'large'},
+}
+# The return value should look like this:
+
+[["Red", "Green"], "MEDIUM", ["Red", "Green"], ["Orange"], "LARGE"]
+
+# input hash - output array
+# elements - colors of the fruits and sizes of the vegetables
+# declare colors_and_sizes
+# iterate over hsh values - get fruit_veggie
+# if type is fruit map colors to capitalized colors
+# if type is vegetable upcase the size
+# push colors and uppercased size to colors and sizes
+
+colors_and_sizes = []
+
+hsh.each_value do |fruit_veggie|
+  if fruit_veggie[:type] == 'fruit'
+    colors_and_sizes << fruit_veggie[:colors].map { |color| color.capitalize }
+  elsif fruit_veggie[:type] == 'vegetable'
+    colors_and_sizes << fruit_veggie[:size].upcase
+  end
+end
+
+# refactor using map
+
+hsh.map do |_, fruit_veggie|
+  if fruit_veggie[:type] == 'fruit'
+    fruit_veggie[:colors].map { |color| color.capitalize }
+  elsif fruit_veggie[:type] == 'vegetable'
+    fruit_veggie[:size].upcase
+  end
+end
+
+# 15.
+# Given this data structure write some code to return an array which contains only the hashes where all the integers are even.
+
+arr = [{a: [1, 2, 3]}, {b: [2, 4, 6], c: [3, 6], d: [4]}, {e: [8], f: [6, 10]}]
+
+# select
+# check if all? integers are even?
+
+arr.select do |hsh|
+  hsh.all? do |_, v|
+    v.all? { |n| n.even?}
+  end
+end
+
+# 16.
+Practice Problem 16
+# A UUID is a type of identifier often used as a way to uniquely identify items...which may not all be created by the same system. That is, without any form of synchronization, two or more separate computer systems can create new items and label them with a UUID with no significant chance of stepping on each other's toes.
+
+# It accomplishes this feat through massive randomization. The number of possible UUID values is approximately 3.4 X 10E38.
+
+# Each UUID consists of 32 hexadecimal characters, and is typically broken into 5 sections like this 8-4-4-4-12 and represented as a string.
+
+# It looks like this: "f65c57f6-a6aa-17a8-faa1-a67f2dc9fa91"
+
+# Write a method that returns one UUID when called with no parameters.
+
+# output string of chars and integers
+# has 5 sections 8-4-4-4-12
+# set alphabet chars and integers 0-9 'abcdefghijklmnopqrstuvwxyz0123456789'
+# conver to array
+# return the string - join chars.sample(8)-chars.sample(4)-chars.sample(4)-chars.sample(4)-chars.sample(12)
+
+def generate_uuid
+  uuid_chars = 'abcdef0123456789'.split('')
+  uuid = []
+
+  uuid << uuid_chars.sample(8).join
+  uuid << uuid_chars.sample(4).join
+  uuid << uuid_chars.sample(4).join
+  uuid << uuid_chars.sample(4).join
+  uuid << uuid_chars.sample(12).join
+
+  uuid.join('-')
+end
+
+def generate_uuid
+  uuid_chars = 'abcdef0123456789'.split('')
+  sections = [8, 4, 4, 4, 12]
+
+  uuid = sections.map do |section |
+    uuid_chars.sample(section).join
+  end
+
+  uuid.join('-')
+end
+
+# refactor
+def generate_UUID
+  characters = []
+  (0..9).each { |digit| characters << digit.to_s }
+  ('a'..'f').each { |digit| characters << digit }
+
+  uuid = ""
+  sections = [8, 4, 4, 4, 12]
+  sections.each_with_index do |section, index|
+    section.times { uuid += characters.sample }
+    uuid += '-' unless index >= sections.size - 1
+  end
+
+  uuid
+end
