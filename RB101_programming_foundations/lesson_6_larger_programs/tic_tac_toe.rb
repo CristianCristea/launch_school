@@ -8,7 +8,7 @@ If all 9 squares are marked and no player has 3 squares in a row,
 then the game is a tie.
 =end
 
-# display initial 3 x3 board
+# display initial 3 x3 board  
 # ask the user to mark a square
 # computer marks a square
 # display updated board state
@@ -86,6 +86,12 @@ def human_places_piece!(board)
   board[square] = HUMAN_MARKER
 end
 
+
+def ai_defend(board)
+  # check lines 2 == 2
+  # if yes 
+end
+
 def computer_places_piece!(board)
   square = empty_squares(board).sample
   board[square] = COMPUTER_MARKER
@@ -102,13 +108,9 @@ end
 
 def detect_winner(board)
   WINNIG_LINES.each do |line|
-    if board[line[0]] == HUMAN_MARKER &&
-       board[line[1]] == HUMAN_MARKER &&
-       board[line[2]] == HUMAN_MARKER
+    if board.values_at(*line).count(HUMAN_MARKER) == 3
       return 'Human'
-    elsif board[line[0]] == COMPUTER_MARKER &&
-          board[line[1]] == COMPUTER_MARKER &&
-          board[line[2]] == COMPUTER_MARKER
+    elsif board.values_at(*line).count(COMPUTER_MARKER) == 3
       return 'Computer'
     end
   end
