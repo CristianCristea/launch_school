@@ -18,7 +18,7 @@ then the game is a tie.
 # play again, if yes - go to #1
 # good bye
 
-require 'pry';
+require 'pry'
 INITIAL_MARKER = ' '.freeze
 HUMAN_MARKER = 'X'.freeze
 COMPUTER_MARKER = 'O'.freeze
@@ -39,10 +39,11 @@ def joinor(arr, delimiter = ', ', last_delimiter = 'or')
 end
 
 # rubocop:disable Metrics/MethodLength, AbcSize
-def display_board(brd)
+def display_board(brd, human_score = 0, computer_score = 0)
   system 'clear'
-  puts "Player: #{HUMAN_MARKER}"
-  puts "Computer: #{COMPUTER_MARKER}"
+  prompt('Best of 5 games.')
+  prompt("Player: #{HUMAN_MARKER}")
+  prompt("Computer: #{COMPUTER_MARKER}")
   puts ""
   puts "     |     |"
   puts "  #{brd[1]}  |  #{brd[2]}  |  #{brd[3]}"
@@ -56,6 +57,8 @@ def display_board(brd)
   puts "  #{brd[7]}  |  #{brd[8]}  |  #{brd[9]}"
   puts "     |     |"
   puts ""
+  prompt("Human: #{human_score}")
+  prompt("Computer: #{computer_score}")
 end
 
 # rubocop:enable Metrics/MethodLength, AbcSize
@@ -73,7 +76,6 @@ end
 def human_places_piece!(board)
   square = ''
   loop do
-    prompt('Best of 5 games.')
     prompt("Choose a square (#{joinor(empty_squares(board))}):")
     square = gets.chomp.to_i
     break if empty_squares(board).include?(square)
@@ -114,12 +116,14 @@ def detect_winner(board)
 end
 
 loop do
-  board = initialize_board
-  # human_score = 0
-  # computer_score = 0
+  human_score = 0
+  computer_score = 0
+
+  loop do
+    board = initialize_board
 
     loop do
-      display_board(board)
+      display_board(board, human_score, computer_score)
 
       human_places_piece!(board)
       break if someone_won?(board) || board_full?(board)
@@ -128,22 +132,19 @@ loop do
       break if someone_won?(board) || board_full?(board)
     end
 
-    display_board(board)
+    display_board(board, human_score, computer_score)
 
     if someone_won?(board)
       player = detect_winner(board)
-      # player == 'Human' ? human_score += 1 : computer_score += 1;
+      player == 'Human' ? human_score += 1 : computer_score += 1
 
       prompt("#{player} won!")
     else
       prompt("It's a tie.")
     end
-# binding.pry
-    # prompt("Human: #{human_score}")
-    # prompt("Computer: #{computer_score}")
 
-    # break if human_score == 5 || computer_score == 5
-
+    break if human_score == 5 || computer_score == 5
+  end
   prompt('Play again? (y or n)')
   answer = gets.chomp
   break unless answer.downcase.start_with?('y')
