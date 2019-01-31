@@ -86,14 +86,36 @@ def human_places_piece!(board)
   board[square] = HUMAN_MARKER
 end
 
-
-def ai_defend(board)
-  # check lines 2 == 2
-  # if yes 
+def find_at_risk_square(line, board, marker)
+  if board.values_at(*line).count(marker) == 2
+    board.select { |k, v| line.include?(k) && v == INITIAL_MARKER }.keys.first
+  end
 end
 
+# Offensive ai
+# find if computer has 2 in a row
+# fill the third
+
 def computer_places_piece!(board)
-  square = empty_squares(board).sample
+  square = nil
+
+  WINNIG_LINES.each do |line|
+    square = find_at_risk_square(line, board, COMPUTER_MARKER)
+    break if square
+  end
+
+  if !square
+    WINNIG_LINES.each do |line|
+      square = find_at_risk_square(line, board, HUMAN_MARKER)
+      break if square
+    end
+  end
+
+  if !square && board[5] == INITIAL_MARKER
+    square = 5
+  elsif !square
+    square = empty_squares(board).sample
+  end
   board[square] = COMPUTER_MARKER
 end
 
