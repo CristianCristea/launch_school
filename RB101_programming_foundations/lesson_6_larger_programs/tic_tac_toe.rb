@@ -8,7 +8,7 @@ If all 9 squares are marked and no player has 3 squares in a row,
 then the game is a tie.
 =end
 
-# display initial 3 x3 board  
+# display initial 3 x3 board
 # ask the user to mark a square
 # computer marks a square
 # display updated board state
@@ -22,6 +22,7 @@ require 'pry'
 INITIAL_MARKER = ' '.freeze
 HUMAN_MARKER = 'X'.freeze
 COMPUTER_MARKER = 'O'.freeze
+CHOOSE = true
 WINNIG_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
                [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # cols
                [[1, 5, 9], [3, 5, 7]]              # diagonals
@@ -31,6 +32,8 @@ def prompt(msg)
 end
 
 def joinor(arr, delimiter = ', ', last_delimiter = 'or')
+  return arr.join if arr.length <= 1
+
   string = arr.join(delimiter)
   index = string.rindex(delimiter)
   string[index] = " #{last_delimiter}"
@@ -92,10 +95,6 @@ def find_at_risk_square(line, board, marker)
   end
 end
 
-# Offensive ai
-# find if computer has 2 in a row
-# fill the third
-
 def computer_places_piece!(board)
   square = nil
 
@@ -119,7 +118,18 @@ def computer_places_piece!(board)
   board[square] = COMPUTER_MARKER
 end
 
-# check if the board.keys array is empty
+def place_piece!(board, current_player)
+  if current_player == 'human'
+    human_places_piece!(board)
+  else
+    computer_places_piece!(board)
+  end
+end
+
+def alternate_player(current_player)
+  current_player == 'human' ? 'computer' : 'human'
+end
+
 def board_full?(board)
   empty_squares(board).empty?
 end
@@ -142,22 +152,27 @@ end
 loop do
   human_score = 0
   computer_score = 0
+  current_player = 'human'
 
   loop do
     board = initialize_board
 
+    if CHOOSE
+      loop do
+        prompt('Who begins the game? (human, computer)')
+        current_player = gets.chomp.downcase
+        break if ['human', 'computer'].include?(current_player)
+      end
+    end
+
     loop do
       display_board(board, human_score, computer_score)
-
-      human_places_piece!(board)
-      break if someone_won?(board) || board_full?(board)
-
-      computer_places_piece!(board)
+      place_piece!(board, current_player)
+      current_player = alternate_player(current_player)
       break if someone_won?(board) || board_full?(board)
     end
 
     display_board(board, human_score, computer_score)
-
     if someone_won?(board)
       player = detect_winner(board)
       player == 'Human' ? human_score += 1 : computer_score += 1
