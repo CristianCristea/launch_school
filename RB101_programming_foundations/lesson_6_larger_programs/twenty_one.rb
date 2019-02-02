@@ -24,19 +24,14 @@ player_cards = []
 dealer_cards = []
 
 def deal(own_cards, deck)
-  own_cards << deck.slice!(deck.index(deck.sample))
+  own_cards << deck.pop
 end
 
-def player_busted?(cards)
-  calculate_sum(cards) > 21
+def busted?(cards)
+  total(cards) > 21
 end
 
-# return the ace value
-def set_ace(cards)
-  calculate_sum(cards) < 11 ? 11 : 1
-end
-
-def calculate_sum(cards)
+def total(cards)
   big_cards = ['J', 'Q', 'K']
   cards_values = cards.map { |card| card[0] }
   sum = 0
@@ -65,7 +60,7 @@ def display_suite(card)
 end
 
 def display_initial_dealer(cards)
-  prompt("Dealer has #{cards[0][0]} of #{display_suite(cards[0])} and unknown card")
+  prompt("Dealer has #{cards[0][0]} of #{display_suite(cards[0])} and ?")
 end
 
 def display_cards(player, cards)
@@ -74,14 +69,15 @@ def display_cards(player, cards)
     string += "#{card[0]} of #{display_suite(card)}, "
   end
 
+  string.gsub!(/(\,\s){1}$/, '.') # replace last , and space with .
   prompt(string)
 end
 
 deck = initialize_deck
 
 def detect_winner(player_cards, dealer_cards)
-  player = calculate_sum(player_cards)
-  dealer = calculate_sum(dealer_cards)
+  player = total(player_cards)
+  dealer = total(dealer_cards)
 
   if player == 21
     prompt("Blackjack!!! Player won!")
@@ -100,8 +96,9 @@ end
   deal(player_cards, deck)
   deal(dealer_cards, deck)
 end
-  display_initial_dealer(dealer_cards)
-  display_cards('player', player_cards)
+
+display_initial_dealer(dealer_cards)
+display_cards('player', player_cards)
 
 loop do
   prompt("Do you want to hit(h) or stay(s)?")
@@ -111,21 +108,21 @@ loop do
     display_cards('player', player_cards)
   end
 
-  break if player_answer == 's' || player_busted?(player_cards)
+  break if player_answer == 's' || busted?(player_cards)
 end
 
-prompt("Player busted, Dealer won!") if player_busted?(player_cards)
+prompt("Player busted, Dealer won!") if busted?(player_cards)
 
-if !player_busted?(player_cards)
+if !busted?(player_cards)
   loop do
-    break if calculate_sum(dealer_cards) >= 17 || player_busted?(dealer_cards)
+    break if total(dealer_cards) >= 17 || busted?(dealer_cards)
 
     deal(dealer_cards, deck)
   end
-  prompt("Dealer busted. Player won!") if player_busted?(dealer_cards)
+  prompt("Dealer busted. Player won!") if busted?(dealer_cards)
 end
 
-if !player_busted?(player_cards) && !player_busted?(dealer_cards)
+if !busted?(player_cards) && !busted?(dealer_cards)
   display_cards('dealer', dealer_cards)
   detect_winner(player_cards, dealer_cards)
 end
