@@ -9,19 +9,15 @@
 # 7. Compare cards and declare winner.
 
 require 'pry'
+SUITS = ['H', 'D', 'S', 'C']
+VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 
 def prompt(msg)
   puts "=> #{msg}"
 end
 
 def initialize_deck
-  cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A']
-  deck = []
-  ['H', 'D', 'C', 'S'].each do |suite|
-    cards.each { |card| deck << [card, suite] }
-  end
-
-  deck.shuffle!
+  VALUES.product(SUITS).shuffle
 end
 # hold players cards
 player_cards = []
@@ -52,7 +48,7 @@ def calculate_sum(cards)
     elsif value == 'A' && sum >= 11
       sum += 1
     else
-      sum += value
+      sum += value.to_i
     end
   end
 
@@ -82,15 +78,6 @@ def display_cards(player, cards)
 end
 
 deck = initialize_deck
-
-# 2 loops, one for player, one for computer
-# loop
-# ask player
-# deal or stay
-# if deal add card to human
-# unless busted go to 2
-# break if stay or busted
-# end
 
 def detect_winner(player_cards, dealer_cards)
   player = calculate_sum(player_cards)
