@@ -9,6 +9,10 @@
 - the act of representing essential features without including the background details
 - used to reduce complexity
 
+## Ruby
+
+Ruby methods ALWAYS return the evaluated result of the last line of the expression unless an explicit return comes before it.
+
 ## Variable scope
 
 - determines where in the program a variable is accessible
