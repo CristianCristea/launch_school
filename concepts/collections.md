@@ -37,12 +37,17 @@ arr[2, 3][0] # => "c"
 - when initializing a hash, the keys must be unique or they will be overwritten
 - although both hash keys and values can be any object in Ruby, it is common practice to use symbols as the keys
 - symbols in Ruby can be thought of as immutable strings.
+- initialize a hash with Hash.new(obj) syntax will set the obj as default value for undefined keys
 
 ```ruby
 hsh = { 'fruit' => 'apple', 'vegetable' => 'carrot' }
 
 hsh['fruit']    # => "apple"
 hsh['fruit'][0] # => "a"
+
+hash = Hash.new('Default')
+hash[:non_existing_key] # => Default
+hash[:anything] # => Default
 ```
 
 - **Elements in String and Array objects can be referenced using negative indices, starting from the last index in the collection -1 and working backwards.**
