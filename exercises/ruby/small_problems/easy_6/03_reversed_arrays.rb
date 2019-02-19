@@ -26,6 +26,21 @@ def reverse!(arr)
   arr
 end
 
+# refactor
+def reverse!(arr)
+  left_index = 0
+  right_index = -1
+
+  while left_index < arr.length / 2
+    arr[left_index], arr[right_index] = arr[right_index], arr[left_index]
+
+    left_index += 1
+    right_index -= 1
+  end
+
+  array
+end
+
 # Examples:
 list = [1,2,3,4]
 result = reverse!(list)
