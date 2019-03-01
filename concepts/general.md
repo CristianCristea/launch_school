@@ -15,7 +15,7 @@ Ruby methods ALWAYS return the evaluated result of the last line of the expressi
 
 ## Variable scope
 
-- determines where in the program a variable is accessible
+- defines where in the program a variable is accessible
 - is determined by where the variable is initialized
 - the variable scope is defined by a **block**
 - a block is a piece of code following a method invocation usually
