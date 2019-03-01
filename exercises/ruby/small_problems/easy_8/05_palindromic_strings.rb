@@ -5,13 +5,34 @@
 
 # For the purposes of this exercise, you should consider all characters and pay attention to case; that is, "AbcbA" is a palindrome, but neither "Abcba" nor "Abc-bA" are. In addition, assume that single characters are not palindromes.
 
-def is_palindrome(string)
-  string.size > 1 ? string == string.reverse : false
+def substrings_at_start(string)
+  substrings = []
+  string.length.times do |i|
+    substrings.push(string[0..i])
+  end
+
+  substrings
+end
+
+
+def substrings(string)
+  substrings = []
+  string.size.times do |i|
+    substrings << substrings_at_start(string[i..string.size])
+  end
+
+  substrings.flatten
+end
+
+def palindrome?(string)
+  string.size > 1 && string == string.reverse
 end
 
 def palindromes(string)
-# create substrings
+all_substrings = substrings(string)
+
 # select and return palindromic strings
+all_substrings.select { |str| palindrome?(str) }
 end
 
 palindromes('abcd') == []
