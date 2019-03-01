@@ -28,11 +28,9 @@ arr.each {}
 loop do
 
 end
-# ...
 
 # not a method invocation
 # does not create a new scope
-
 for a in arr do
 
 end
