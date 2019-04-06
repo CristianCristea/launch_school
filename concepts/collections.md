@@ -20,7 +20,7 @@ string[0, 2] # => 'ab'
 
 ## Array
 
-- are also 0 indexed collections
+- are index based collections, starting from 0
 - elements can be accessed using the index
 - can use syntactical sugar like with the string
 
