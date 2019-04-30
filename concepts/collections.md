@@ -23,12 +23,15 @@ string[0, 2] # => 'ab'
 - are index based collections, starting from 0
 - elements can be accessed using the index
 - can use syntactical sugar like with the string
+- you can use slice with a range
 
 ```ruby
 arr = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
 arr[0] # => 'a'
 arr[2, 3] # => ["c", "d", "e"]
 arr[2, 3][0] # => "c"
+# slice from the elem to the end
+arr.slice(3..-1) # => ["d", "e", "f", "g"]
 ```
 
 ## Hash
@@ -53,16 +56,16 @@ hash[:anything] # => Default
 - **Elements in String and Array objects can be referenced using negative indices, starting from the last index in the collection -1 and working backwards.**
 - can use #fetch method on array and hash to retrive an element, the method will raise an error if the index is out of bounds or key does not exist
 
-# iterators
+## iterators
 
-## #each
+### #each
 
 - iteration
 - does not consider the return value of the block
 - returns the original collection
 - same length with the original array
 
-## #map
+### #map
 
 - transformation
 - changes each element based on the return value of the block
@@ -70,23 +73,26 @@ hash[:anything] # => Default
 - has the same length with the original array
 - always returns an array even when called on a hash
 
-## #select
+### #select
 
 - selection
-- considers the truthiness of the returned expression
+- considers the truthiness of the returned expression or value from the block
 - returns new collection
 - can have a different length comparing to the original array
 
-## #reduce == #inject
+### #reduce == #inject
 
 - use to mutate an array or a collection
 
 ```ruby
 ages = { "Herman" => 32, "Lily" => 30, "Grandpa" => 5843, "Eddie" => 10, "Marilyn" => 22, "Spot" => 237 }
+
+ages.values.reduce(0) {|sum, age| sum += age} # sum param will be replaced with the return value of the block after every iteration
+# or
+ages.values.inject(:+)
+# or
 ages.values.sum # returns the values sum
 
-# or for example purpuse
-ages.values.inject(:+)
 ```
 
 ## #each_with_object
@@ -107,5 +113,4 @@ flintstones = ["Fred", "Barney", "Wilma", "Betty", "Pebbles", "BamBam"]
 flintstones.each_with_object({}) do |name, hash|
   hash[name] = flintstones.index(name)
 end
-
 ```

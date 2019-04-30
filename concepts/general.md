@@ -42,7 +42,7 @@ string = 'outer scope'
 
 10.times do
   arr = [1,2,3]
-  puts string # outer scope
+  puts string # from outer scope
 end
 
 print arr # NameError
@@ -86,10 +86,6 @@ end
 
 - variables are pointers to physical space in memory
 
-```ruby
-
-```
-
 ## truthines
 
 - in Ruby only `nil` and `false` evaluates to false
@@ -102,7 +98,7 @@ end
 ## method definition and invocation
 
 - method definition can't directly access a local variable initialized outside of the method definition
-- method definition can't change or reassign a local variable initialized outside
+- method definition can't reassign a local variable initialized outside
 - a block can access and modify a local variable initialized outside
 - method definition can access local variables defined outside through interaction with blocks
 
