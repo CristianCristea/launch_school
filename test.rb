@@ -1,92 +1,27 @@
-# Given a string of length N, the number of substrings that can be formed=N(N+1)/2
+# In the previous exercise, we developed a procedural method for computing the value of the nth Fibonacci numbers. This method was really fast, computing the 20899 digit 100,001st Fibonacci sequence almost instantly.
 
-# The idea is to use a prefix sum array-based technique where we store the occurrences of each character in all the substrings concatenated.
+# In this exercise, you are going to compute a method that returns the last digit of the nth Fibonacci number.
 
-#! store how many times a char appears in all substrings
+# calculate fibonacci numbers
+# fibonacci series - each number is the sum of the previous 2 number
+# start with 1, 1
+# init a fibonacci array
+# loop n - 2 times
+# add previous 2 numbers using the array index
+# return last value
 
-# For the first character,
-# no. of occurrences = no. of substrings starting with the first character = N.
-
-# For each of the following characters, we store the
-# no. of substrings starting with that character + the number of substrings formed by the previous characters containing this character – the number of substrings formed by the previous characters only.
-
-def count_vowels(string)
-  n = string.size
-  char_occurrences_in_substrings = []
-  sum = 0
-
-  # char_occurrences_in_substrings stores the number of occurrences of every char from the input in every substring
-  n.times do |i|
-    if i == 0
-      char_occurrences_in_substrings << n
-    else
-      char_occurrences_in_substrings << ((n - i) + char_occurrences_in_substrings[i - 1] - i)
-    end
-  end
-
-  # if the char is a vowel add the his occurences to sum
-  string.chars.each.with_index do |char, idx|
-    sum += %w(a e i o u A E I O U).include?(char) ? char_occurrences_in_substrings[idx] : 0
-  end
-
-  sum
+def fibonacci_last(n)
+  fibonacci = [1, 1]
+  2.upto(n - 1) { |i| fibonacci << fibonacci[i - 1] + fibonacci[i - 2]}
+  fibonacci.last
 end
 
-# for 'baceb' arr = [5, 8, 9, 8, 5]
-# b = 5 times in all substrings
-# a = 8 times in all substrings
-#...
-p count_vowels('baceb')
+# Examples:
+p fibonacci_last(15)        # -> 0  (the 15th Fibonacci number is 610)
+p fibonacci_last(20)        # -> 5 (the 20th Fibonacci number is 6765)
+p fibonacci_last(100)       # -> 5 (the 100th Fibonacci number is 354224848179261915075)
+p fibonacci_last(100_001)   # -> 1 (this is a 20899 digit number)
 
-
-# Mental model
-# n = string.size
-arr = []
-
-string.size.times do |i|
-  if i == 0
-    arr << string.size
-  else
-    arr << ((string.size - i) + char_occurrences_in_substrings[i - 1] - i)
-  end
+def indent(string, num)
+  num.times { |i| puts ' ' * i << string}
 end
-
-string = 'baceb'
-'b'
-i = 0
-arr = [5] # i == 0 => arr < string.size
-'a'
-i = 1
-arr = [5, 8]
-arr << ((string.size - i) + arr[i - 1] - i)
-# string.size - i  => all the substrings starting with 'a'
-# char_occurences_in_substrings[i - 1] => occurences in the substrings starting with the previous char
-# - i => minus the substrins formed before the current char
-# ex baceb substrings
-# b, ba, bac, bace, baceb
-# here for a will be - 1 occurence in the first substring
-# 4 + (5 - 1)
-
-'c' # => arr << 3 + (8 - 2) = 9
-i = 2
-arr[i - 1] = 8
-arr = [5, 8, 9]
-
-'e' # => arr << 2 + (9 - 3) = 8
-i = 3
-arr[i - 1] = 9
-arr = [5, 8, 9, 8]
-
-'b' # => arr << 1 + (8 - 4) = 5
-i = 4
-arr[i - 1] = 8
-arr = [5, 8, 9, 8, 5]
-
-# refactor
-def vowel_recognition input
-  input.chars.each.with_index.inject(0) do  |sum, (c, i)|
-    sum += %w(a e i o u A E I O U).include?(c) ? (input.size - i) * (i + 1) : 0
-  end
-end
-
-vowel_recognition('baceb')
